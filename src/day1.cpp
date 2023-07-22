@@ -55,6 +55,20 @@ int calorieCounter(std::vector<std::vector<int>> elfCalories)
     return maxCalories;
 }
 
+int getTop3Calories(std::vector<std::vector<int>> elfCalories)
+{
+    std::vector<int> sums = std::vector<int>();
+
+    for (auto calories : elfCalories)
+    {
+        sums.push_back(sum(&calories));
+    }
+
+    std::sort(sums.begin(), sums.end());
+    int len = sums.size();
+    return sums[len - 1] + sums[len - 2] + sums[len - 3];
+}
+
 void runDay1()
 {
     // auto elvesCalories = std::vector<std::vector<int>>();
@@ -69,5 +83,9 @@ void runDay1()
 
     int maxCalories = calorieCounter(elvesCalories);
 
-    std::cout << "Max Calories: " << maxCalories << std::endl;
+    std::cout << "Part 1: Max Calories: " << maxCalories << std::endl;
+
+    int maxThreeCalories = getTop3Calories(elvesCalories);
+
+    std::cout << "Part 2: Max Calories: " << maxThreeCalories << std::endl;
 }
