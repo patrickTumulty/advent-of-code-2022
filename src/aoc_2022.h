@@ -3,6 +3,6 @@
 #define AOC_2022_H
 
 void runDay1();
-
+void runDay2();
 
 #endif

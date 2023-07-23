@@ -1,15 +1,11 @@
 
 #include "aoc_2022.h"
+#include "utils.h"
 #include <cctype>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <vector>
-
-bool isNullOrWhiteSpace(const std::string& s)
-{
-    return s.empty() || std::all_of(s.begin(), s.end(), [](char c) { return std::isspace(c); });
-}
 
 std::vector<std::vector<int>> fileToIntVector(std::string filename)
 {
