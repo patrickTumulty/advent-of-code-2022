@@ -4,7 +4,8 @@
 
 int main()
 {
-    runDay5();
+    runDay6();
+    // runDay5();
     // runDay4();
     // runDay3();
     // runDay1();
