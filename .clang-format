@@ -9,6 +9,8 @@ PointerAlignment: Left
 
 AlignAfterOpenBracket: "Align"
 
+AlignArrayOfStructures: Left
+
 IndentCaseBlocks: true
 IndentCaseLabels: true
 
