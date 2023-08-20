@@ -4,11 +4,12 @@
 
 int main()
 {
-    runDay7();
-    // runDay6();
-    // runDay5();
-    // runDay4();
-    // runDay3();
-    // runDay1();
-    // runDay2();
+    runDay8();
+//    runDay7();
+//    runDay6();
+//    runDay5();
+//    runDay4();
+//    runDay3();
+//    runDay1();
+//    runDay2();
 }

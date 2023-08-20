@@ -9,5 +9,6 @@ void runDay4();
 void runDay5();
 void runDay6();
 void runDay7();
+void runDay8();
 
 #endif
