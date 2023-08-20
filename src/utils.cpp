@@ -4,8 +4,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
-#include <utility>
 #include <vector>
+#include <algorithm>
 
 bool isNullOrWhiteSpace(const std::string& s)
 {

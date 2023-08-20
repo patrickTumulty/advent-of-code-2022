@@ -1,7 +1,8 @@
 
 #include "aoc_2022.h"
 #include "utils.h"
-#include <cctype>
+#include <algorithm>
+#include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -43,7 +44,7 @@ int sum(std::vector<int>* vec)
 
 int calorieCounter(std::vector<std::vector<int>> elfCalories)
 {
-    int maxCalories = INT_MIN;
+    int maxCalories = INT32_MIN;
     for (auto calories : elfCalories)
     {
         maxCalories = std::max(maxCalories, sum(&calories));
