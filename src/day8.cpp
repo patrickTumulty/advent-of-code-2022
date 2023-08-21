@@ -1,15 +1,38 @@
 
 #include "aoc_2022.h"
 #include "utils.h"
+#include <cstdint>
 #include <iostream>
 #include <stack>
 #include <string>
 #include <vector>
 
+void incrementTreeScore(std::vector<std::vector<int>>& visibleScore, const std::stack<int>& visibleStack, int i, int j)
+{
+    int* score;
+    if (!visibleStack.empty())
+    {
+        score = &visibleScore[i][j];
+        *score = *score == 0 ? (int)visibleStack.size() : *score * (int)visibleStack.size();
+    }
+}
+
 void emptyStack(std::stack<int>& s)
 {
     while (!s.empty())
         s.pop();
+}
+
+void evaluateTree(std::stack<int>& visibleStack, int tree)
+{
+    if (visibleStack.empty())
+    {
+        visibleStack.push(tree);
+    }
+    else if (tree >= visibleStack.top())
+    {
+        visibleStack.push(tree);
+    }
 }
 
 void checkRows(const std::vector<std::vector<int>>& grid, std::vector<std::vector<int>>& visible)
@@ -50,7 +73,7 @@ void checkCols(const std::vector<std::vector<int>>& grid, std::vector<std::vecto
     {
         emptyStack(forwardStack);
         emptyStack(reverseStack);
-        int colLength = grid.size();
+        int colLength = (int)grid.size();
         for (int j = 0; j < colLength; j++)
         {
             int value = grid[j][i];
@@ -76,7 +99,7 @@ void printGrid(const std::vector<std::vector<int>>& grid)
     {
         for (int item : row)
         {
-            std::cout << item;
+            std::cout << item << " ";
         }
         std::cout << std::endl;
     }
@@ -95,88 +118,92 @@ void initAndFillGrid(const std::vector<std::vector<int>>& grid, std::vector<std:
 void runPart2(std::vector<std::vector<int>>& grid)
 {
     std::vector<std::vector<int>> visibleScore;
-    initAndFillGrid(grid, visibleScore, 1);
+    initAndFillGrid(grid, visibleScore, 0);
 
     std::stack<int> visibleStack;
     int counter = 0;
 
     int highestScore = INT32_MIN;
 
-    for (int i = 0; i < grid.size(); i++)
+    for (int i = 1; i < grid.size() - 1; i++)
     {
-        for (int j = 0; j < grid[i].size(); j++)
+        for (int j = 1; j < grid[i].size() - 1; j++)
         {
+            int currentTree = grid[i][j];
+
             // Forward
             emptyStack(visibleStack);
             counter = j + 1;
+
             while (counter < grid[i].size())
             {
-                if (visibleStack.empty())
+                int tree = grid[i][counter];
+                visibleStack.push(tree);
+                if (tree >= currentTree)
                 {
-                    visibleStack.push(grid[i][counter]);
+                    break;
                 }
-                else if (grid[i][counter] > visibleStack.top())
-                {
-                    visibleStack.push(grid[i][counter]);
-                }
+
                 counter++;
             }
-            visibleScore[i][j] *= (int) visibleStack.size();
+            incrementTreeScore(visibleScore, visibleStack, i, j);
 
             // Backward
             emptyStack(visibleStack);
             counter = j - 1;
             while (counter > -1)
             {
-                if (visibleStack.empty())
+                int tree = grid[i][counter];
+                visibleStack.push(tree);
+
+                if (tree >= currentTree)
                 {
-                    visibleStack.push(grid[i][counter]);
+                    break;
                 }
-                else if (grid[i][counter] > visibleStack.top())
-                {
-                    visibleStack.push(grid[i][counter]);
-                }
+
                 counter--;
             }
-            visibleScore[i][j] *= (int) visibleStack.size();
+            incrementTreeScore(visibleScore, visibleStack, i, j);
 
             // Up
             emptyStack(visibleStack);
             counter = i - 1;
             while (counter > -1)
             {
-                if (visibleStack.empty())
+                int tree = grid[counter][j];
+                visibleStack.push(tree);
+
+                if (tree >= currentTree)
                 {
-                    visibleStack.push(grid[counter][j]);
+                    break;
                 }
-                else if (grid[counter][j] > visibleStack.top())
-                {
-                    visibleStack.push(grid[counter][j]);
-                }
+
                 counter--;
             }
-            visibleScore[i][j] *= (int) visibleStack.size();
+            incrementTreeScore(visibleScore, visibleStack, i, j);
 
             // Down
             emptyStack(visibleStack);
             counter = i + 1;
             while (counter < grid.size())
             {
-                if (visibleStack.empty())
+                int tree = grid[counter][j];
+                visibleStack.push(tree);
+
+                if (tree >= currentTree)
                 {
-                    visibleStack.push(grid[counter][j]);
+                    break;
                 }
-                else if (grid[counter][j] > visibleStack.top())
-                {
-                    visibleStack.push(grid[counter][j]);
-                }
+
                 counter++;
             }
-            visibleScore[i][j] *= (int) visibleStack.size();
+            incrementTreeScore(visibleScore, visibleStack, i, j);
 
             highestScore = std::max(highestScore, visibleScore[i][j]);
         }
     }
+
+    printGrid(visibleScore);
 
     std::cout << "Highest Visibility Score: " << highestScore << std::endl;
 }
@@ -184,7 +211,7 @@ void runPart2(std::vector<std::vector<int>>& grid)
 void runDay8()
 {
     std::vector<std::string> lines;
-    file2Vector("../data/trees_test.txt", lines);
+    file2Vector("../data/trees.txt", lines);
 
     std::vector<std::vector<int>> grid;
     int i = 0;
