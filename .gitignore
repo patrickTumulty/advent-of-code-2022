@@ -1,4 +1,6 @@
 .cache
 cmake_build_Debug/
+cmake-build-debug/
+.idea/
 
 compile_commands.json

@@ -73,7 +73,7 @@ void checkCols(const std::vector<std::vector<int>>& grid, std::vector<std::vecto
     {
         emptyStack(forwardStack);
         emptyStack(reverseStack);
-        int colLength = (int)grid.size();
+        int colLength = grid.size();
         for (int j = 0; j < colLength; j++)
         {
             int value = grid[j][i];
